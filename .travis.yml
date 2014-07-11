@@ -4,13 +4,27 @@ php:
     - 5.3
     - 5.4
     - 5.5
+    - 5.6
+    - hhvm
+ 
+env:
+  - SYMFONY_VERSION=2.3.*
 
 matrix:
-    allow_failures:
-        - php: 5.5
+  allow_failures:
+    - env: SYMFONY_VERSION=dev-master
+  include:
+    - php: 5.5
+      env: SYMFONY_VERSION=2.2.*
+    - php: 5.5
+      env: SYMFONY_VERSION=2.4.*
+    - php: 5.5
+      env: SYMFONY_VERSION=2.5.*
+    - php: 5.5
+      env: SYMFONY_VERSION=dev-master
 
 before_script:
-  - composer install --prefer-source --no-interaction
+  - composer require symfony/symfony:${SYMFONY_VERSION} --prefer-source
 
 script:
   - phpunit -c phpunit.xml.dist --coverage-text
